@@ -5,19 +5,24 @@ import Colors from '../../utils/Colors';
 import { client } from '../../utils/kindeConfig';
 import services from '../../utils/services';
 import { useRouter } from 'expo-router';
-import * as WebBrowser from 'expo-web-browser';
 export default function LoginScreen() {
    
    const router = useRouter();
    const handleSignIn = async () => {
-      
-      const result = await services?.storeData('login', 'true')
-      if(result){
-        router.push('/');
-      }else{
-         await services?.getData('login', 'true');
+
+        const token = await client.login();
+        if (token) {
+         await services?.storeData('login', 'true')
          router.replace('/');
       }
+
+      // const result = await services?.storeData('login', 'true')
+      // if(result){
+      //   router.replace('/');
+      // }else{
+      //    await services?.getData('login', 'true');
+      //    router.replace('/');
+      // }
    }
     
 
